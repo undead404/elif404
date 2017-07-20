@@ -1,0 +1,141 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>undead404: test job for ElifTech</title>
+    {% assets filters="cssmin", output="css/packed.css", 'css/bootstrap.css', 'css/mdb.css', 'css/font-awesome.css', 'css/mystyle.css'%}
+    <link rel="stylesheet" href="{{ ASSET_URL }}" /> {% endassets %}
+</head>
+
+<body>
+    {% raw %}
+    <script type="text/x-template" id="company-template">
+        <div class="company md-form row" :class="{ loading: loadingTasksNum > 0 }" :id="id ? ('company-' + id) : ''" v-if="!deleted">
+            <div class="col-4" v-if="!isBeingEdited">
+                <h3>{{title}}</h3>
+            </div>
+            <input :disabled="loadingTasksNum > 0" type="text" class="col-4 form-control" v-if="isBeingEdited" v-model="title" @keyup.enter="isBeingEdited = !isBeingEdited"
+                @keyup.esc="isBeingEdited = !isBeingEdited">
+            <div class="col-2" v-if="!isBeingEdited">
+                <span>{{earnings}}</span>
+            </div>
+            <input :disabled="loadingTasksNum > 0" type="number" class="col-2 form-control" v-if="isBeingEdited" v-model="earnings" @keyup.enter="isBeingEdited = !isBeingEdited"
+                @keyup.esc="isBeingEdited = !isBeingEdited">
+            <div class="col-2">
+                <button :disabled="loadingTasksNum > 0" @click="isBeingExtended = !isBeingExtended" class="btn btn-cyan"><i class="fa fa-arrow-down"></i><i class="fa fa-plus"></i></button>
+            </div>
+            <div class="col-2">
+                <button :disabled="loadingTasksNum > 0" @click="isBeingEdited = !isBeingEdited" class="btn btn-blue-grey"><i class="fa fa-edit"></i></button>
+            </div>
+            <div class="col-2">
+                <button :disabled="loadingTasksNum > 0" @click="del()" class="btn btn-danger"><i class="fa fa-remove"></i></button>
+            </div>
+            <div class="md-form row" v-if="isBeingExtended">
+                <div class="col-5">
+                    <input :disabled="loadingTasksNum > 0" type="text" class="form-control" v-model="newChildTitle" @keyup.enter="addChildCompany"
+                        placeholder="Title?" />
+                </div>
+                <div class="col-3">
+                    <input :disabled="loadingTasksNum > 0" type="number" class="form-control" v-model="newChildEarnings" @keyup.enter="addChildCompany"
+                        placeholder="Earnings?" />
+                </div>
+                <div class="col-4">
+                    <button :disabled="loadingTasksNum > 0" @click="addChildCompany" class="btn btn-cyan"><i class="fa fa-plus"></i></button>
+                </div>
+            </div>
+            <company v-for="(childCompany, index) in childCompanies" :company="childCompany" :key="index"></company>
+        </div>
+
+    </script>
+    {% endraw %}
+    <!--Navbar-->
+    <nav class="navbar navbar-toggleable-md navbar-dark bg-primary purple">
+        <div class="container">
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav1" aria-controls="navbarNav1"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="{{ url('index') }}">
+                <strong>undead404: ElifTech test job</strong>
+            </a>
+            <div class="collapse navbar-collapse" id="navbarNav1">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('index') }}">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    {% raw %}
+    <section class="container-fluid" id="companies-app">
+        <h1>Companies</h1>
+        <div id="error-messages" class="danger-color-dark white-text card card-block" v-if="errorMessages.length">
+            <div class="card-title">Errors</div>
+            <div class="card-text" v-for="errorMessage in errorMessages">
+                <p v-for="errorMessageLine in errorMessage.split('\n')">{{errorMessageLine}}</p>
+            </div>
+        </div>
+        <div class="md-form row card card-block" :class="{loading: loadingTasksNum > 0}">
+            <div class="card-title">
+                <h3>Add new company</h3>
+            </div>
+            <div class="row flex-row">
+                <div class="col-5">
+                    <input :disabled="loadingTasksNum > 0" type="text" class="form-control" id="new-company-title" v-model="newTitle" @keyup.enter="addCompany"
+                        placeholder="Title?" />
+                    <label for="new-company-title">Title</label>
+                </div>
+                <div class="col-3">
+                    <input :disabled="loadingTasksNum > 0" type="number" class="form-control" id="new-company-earnings" v-model="newEarnings"
+                        @keyup.enter="addCompany" placeholder="Earnings?" />
+                    <label for="new-company-earnings">Earnings</label>
+                </div>
+                <div class="col-4">
+                    <button :disabled="loadingTasksNum > 0" @click="addCompany" class="btn btn-cyan"><i class="fa fa-plus"></i></button>
+                </div>
+            </div>
+        </div>
+        <section class="main" v-show="companies.length">
+            <company v-for="(company, index) in companies" :key="index" :company="company">
+
+            </company>
+        </section>
+        {% endraw %}
+    </section>
+    <!--Footer-->
+    <footer class="page-footer purple center-on-small-only">
+
+        <!--Footer Links-->
+        <div class="container-fluid">
+            <div class="row">
+
+                <!--First column-->
+                <div class="col-md-6">
+                    <h5 class="title">ElifTech test job</h5>
+                    <p>made by undead404.</p>
+                </div>
+                <!--/.First column-->
+
+                <!--Second column-->
+                <div class="col-md-6">
+                    <h5 class="title">Links</h5>
+                    <ul>
+                        <li><a href="https://www.facebook.com/vitaliy.seeker">Facebook</a></li>
+                        <li><a href="https://www.instagram.com/brute18/">Instagram</a></li>
+                    </ul>
+                </div>
+                <!--/.Second column-->
+            </div>
+        </div>
+        <!--/.Footer Links-->
+
+    </footer>
+    <!--/.Footer-->
+    {% assets filters="jsmin", output="js/packed.js", 'js/jquery-3.1.1.js', 'js/tether.js', 'js/bootstrap.js', 'js/mdb.js', 'js/vue.js',
+    'js/lodash.js', 'js/script.js' %}
+    <script src="{{ ASSET_URL }}"></script>
+    {% endassets %} {% block scripts %}{% endblock %}
+</body>
+
+</html>
