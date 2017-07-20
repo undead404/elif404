@@ -22,7 +22,13 @@ dotenv.load_dotenv(os.path.join(BASE_DIR, '.env'))
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['SECRET_KEY']
+try:
+    SECRET_KEY = os.environ['SECRET_KEY']
+except KeyError:
+    SECRET_KEY = ''.join([random.SystemRandom().choice(
+        'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)') for i in range(50)])
+    with open(os.path.join(BASE_DIR, '.env'), 'a') as envfile:
+        envfile.write("SECRET_KEY={SECRET_KEY}".format(SECRET_KEY=SECRET_KEY))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', False)
@@ -107,10 +113,12 @@ WSGI_APPLICATION = 'elif_test_job.wsgi.application'
 
 DATABASES = {
     'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'mydatabase',
     }
 }
 db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
+DATABASES['default'] = db_from_env
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
