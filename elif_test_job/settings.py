@@ -137,3 +137,5 @@ STATICFILES_DIRS = (
 )
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 ASSETS_AUTO_BUILD = True
+# ASSETS_JINJA2_EXTENSIONS = JINJA2_EXTENSIONS
+# ASSETS_MODULES = ['efif_test_job.assets']
