@@ -112,9 +112,12 @@ WSGI_APPLICATION = 'elif_test_job.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
+db = dj_database_url.config(conn_max_age=500)
 DATABASES = {
-    'default': dj_database_url.config(
-        conn_max_age=500, default="sqlite://{file}".format(file=os.path.join(BASE_DIR, 'db.sqlite3')))
+    'default': db or {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'db.sqlite3',
+    }
 }
 
 # Internationalization
