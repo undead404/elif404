@@ -25,6 +25,7 @@ dotenv.load_dotenv(os.path.join(BASE_DIR, '.env'))
 try:
     SECRET_KEY = os.environ['SECRET_KEY']
 except KeyError:
+    import random
     SECRET_KEY = ''.join([random.SystemRandom().choice(
         'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)') for i in range(50)])
     with open(os.path.join(BASE_DIR, '.env'), 'a') as envfile:
