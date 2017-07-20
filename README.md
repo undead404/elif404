@@ -1,4 +1,6 @@
 # elif404
+## How do I open it?
+[Elif404](https://elif404.herokuapp.com/).
 ## How do I launch it locally? 
 Base requirements:
 * Linux
