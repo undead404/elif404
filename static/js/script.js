@@ -21,7 +21,6 @@ function csrfSafeMethod(method) {
     // these HTTP methods do not require CSRF protection
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 }
-
 Vue.component("company", {
     "computed": {
         "depth": function () {

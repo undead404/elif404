@@ -13,14 +13,16 @@
     <script type="text/x-template" id="company-template">
         <div class="company md-form row" :class="{ loading: loadingTasksNum > 0 }" :id="id ? ('company-' + id) : ''" v-if="!deleted">
             <div class="col-4" v-if="!isBeingEdited">
-                <h3>{{title}}</h3>
+                <h3 data-toggle="tooltip" data-animation="false" data-placement="top" title="Title">{{title}}</h3>
             </div>
-            <input :disabled="loadingTasksNum > 0" type="text" class="col-4 form-control" v-if="isBeingEdited" v-model="title" @keyup.enter="isBeingEdited = !isBeingEdited"
+            <input data-toggle="tooltip" data-animation="false" data-placement="top" title="Title" :disabled="loadingTasksNum > 0" type="text"
+                class="col-4 form-control" v-if="isBeingEdited" v-model="title" @keyup.enter="isBeingEdited = !isBeingEdited"
                 @keyup.esc="isBeingEdited = !isBeingEdited">
             <div class="col-2" v-if="!isBeingEdited">
-                <span>{{earnings}}</span>
+                <span data-toggle="tooltip" data-animation="false" data-placement="top" title="Annual estimated earnings">{{earnings}}</span>
             </div>
-            <input :disabled="loadingTasksNum > 0" type="number" class="col-2 form-control" v-if="isBeingEdited" v-model="earnings" @keyup.enter="isBeingEdited = !isBeingEdited"
+            <input data-toggle="tooltip" data-animation="false" data-placement="top" title="Annual estimated earnings" :disabled="loadingTasksNum > 0"
+                type="number" class="col-2 form-control" v-if="isBeingEdited" v-model="earnings" @keyup.enter="isBeingEdited = !isBeingEdited"
                 @keyup.esc="isBeingEdited = !isBeingEdited">
             <div class="col-2">
                 <button :disabled="loadingTasksNum > 0" @click="isBeingExtended = !isBeingExtended" class="btn btn-cyan"><i class="fa fa-arrow-down"></i><i class="fa fa-plus"></i></button>
