@@ -2,7 +2,6 @@
 venv/
 .vscode/
 .idea/
-**/packed*
 **/.keep
 **/.webassets-cache/
 __pycache__/
